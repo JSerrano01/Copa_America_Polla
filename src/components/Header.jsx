@@ -15,8 +15,9 @@ const Header = () => {
                     <div className="space-x-8 ml-8 hidden md:flex">
                         <a className="rounded p-1 m-1 px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500  hover:text-slate-100 focus:ring-2 focus:ring-slate-200" href="/main">Inicio</a>
                         <a className="rounded p-1 m-1 px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500  hover:text-slate-100 focus:ring-2 focus:ring-slate-200" href="/teams">Equipos</a>
-                        <a className="rounded p-1 m-1 px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500  hover:text-slate-100 focus:ring-2 focus:ring-slate-200" href="">Blog</a>
-                        <a className="rounded p-1 m-1 px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500  hover:text-slate-100 focus:ring-2 focus:ring-slate-200" href="">Contact</a>
+                        <a className="rounded p-1 m-1 px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500  hover:text-slate-100 focus:ring-2 focus:ring-slate-200" href="/pollas">Pollas</a>
+                        <a className="rounded p-1 m-1 px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500  hover:text-slate-100 focus:ring-2 focus:ring-slate-200" href="/miPolla">Mi Polla</a>
+                        <a className="rounded p-1 m-1 px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500  hover:text-slate-100 focus:ring-2 focus:ring-slate-200" href="Tabla">Tabla</a>
                     </div>
                 </div>
 
@@ -27,11 +28,12 @@ const Header = () => {
                 </div>
             </div>
 
-            <div className="hidden space-y-1 border-t pb-3 pt-2 md:hidden">
-                <a href="#" className="block rounded-md px-3 py-2 text-slate-700 transition-colors hover:bg-slate-500 hover:text-white">Home</a>
-                <a href="#" className="block rounded-md px-3 py-2 text-slate-700 transition-colors hover:bg-slate-500 hover:text-white">About</a>
-                <a href="#" className="block rounded-md px-3 py-2 text-slate-700 transition-colors hover:bg-slate-500 hover:text-white">Blog</a>
-                <a href="#" className="block rounded-md px-3 py-2 text-slate-700 transition-colors hover:bg-slate-500 hover:text-white">Contact</a>
+            <div className="space-y-1 border-t pb-3 pt-2 md:hidden">
+                <a href="/main" className="block rounded-md px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500 hover:text-white">Inicio</a>
+                <a href="/teams" className="block rounded-md px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500 hover:text-white">Equipos</a>
+                <a href="/pollas" className="block rounded-md px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500 hover:text-white">Pollas</a>
+                <a href="/mipolla" className="block rounded-md px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500 hover:text-white">Mi Polla</a>
+                <a href="/Tabla" className="block rounded-md px-3 py-2 text-slate-100 transition-colors hover:bg-blue-500 hover:text-white">Tabla</a>
             </div>
         </header>
     );

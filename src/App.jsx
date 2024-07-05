@@ -5,6 +5,9 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/home';
 import Teams from './components/Teams'
+import Pollas from './components/Pollas'
+import MyPolla from './components/MyPolla';
+// import Tabla from "./components/Tabla";
 
 
 function App() {
@@ -13,20 +16,56 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LoginForm />} />
-          <Route path="/main" element={
-            <>
-              <Header />
-              <Home />
-              <Footer />
-            </>
-          } />
-          <Route path="/teams" element={
-            <>
-              <Header />
-              <Teams />
-              <Footer />
-            </>
-          } />
+          <Route
+            path="/main"
+            element={
+              <>
+                <Header />
+                <Home />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/teams"
+            element={
+              <>
+                <Header />
+                <Teams />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/pollas"
+            element={
+              <>
+                <Header />
+                <Pollas />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/miPolla"
+            element={
+              <>
+                <Header />
+                <MyPolla />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/Tabla"
+            element={
+              <>
+                <Header />
+                <Teams />
+                <Footer />
+              </>
+            }
+          />
         </Routes>
       </Router>
     </div>
