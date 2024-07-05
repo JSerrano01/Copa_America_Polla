@@ -3,3 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.background-image {
+    @apply bg-cover;
+    background-image: url('/src/assets/static/1.jpeg');
+  }

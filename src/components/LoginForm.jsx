@@ -24,7 +24,7 @@ const LoginForm = () => {
       if (response.status === 200) {
         setTimeout(() => {
           setShowLoading(false); // Ocultar ventana emergente de carga
-          navigate('/home'); // Redirigir al usuario a la vista del Header
+          navigate('/main'); // Redirigir al usuario a la vista del Header
         }, 3000); // Simular carga exitosa por 3 segundos
       } else {
         throw new Error('Credenciales inválidas');
@@ -37,10 +37,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div
-      className="flex justify-center items-center h-screen"
-      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-    >
+    <div className="flex justify-center items-center h-screen">
       <div className="bg-white bg-opacity-80 shadow-md rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-8 text-center">Login</h2>
         <form onSubmit={handleSubmit}>
@@ -86,12 +83,13 @@ const LoginForm = () => {
         )}
         {/* Enlace a la vista del Header */}
         {/* <p className="text-center mt-4">
-          <Link to="/header" className="text-blue-500 hover:underline">
-            Go to Header
-          </Link>
-        </p> */}
+      <Link to="/header" className="text-blue-500 hover:underline">
+        Go to Header
+      </Link>
+    </p> */}
       </div>
     </div>
+
   );
 };
 
