@@ -76,10 +76,13 @@ const LoginForm = () => {
           <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
             <div className="bg-white rounded-lg p-8 max-w-md w-full text-center">
               <h2 className="text-xl font-bold mb-4">Cargando...</h2>
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-              <p className="mt-4">Carga exitosa</p>
+              <div className="flex justify-center items-center">
+                <br />
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+              </div>
             </div>
           </div>
+
         )}
         {/* Enlace a la vista del Header */}
         {/* <p className="text-center mt-4">

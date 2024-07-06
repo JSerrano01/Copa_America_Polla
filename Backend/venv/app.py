@@ -1,11 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 import MySQLdb.cursors
 from api import mysql, store_matches
 
 app = Flask(__name__)
-CORS(app)
+app.secret_key = "your_secret_key"
+
+# Configuración de CORS
+CORS(app, supports_credentials=True)
 
 # Configuración de la base de datos MySQL
 app.config["MYSQL_HOST"] = "localhost"
@@ -60,6 +63,11 @@ def update_pollas():
     try:
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)  # Usar DictCursor
 
+        # Reiniciar los puntos de todos los perfiles a 0
+        reset_query = "UPDATE pollas_grupos SET puntos = 0"
+        cur.execute(reset_query)
+        mysql.connection.commit()
+
         # Consulta para obtener equipos ordenados por puntos para cada grupo
         groups = ["A", "B", "C", "D"]
         pollas_data = []
@@ -86,14 +94,25 @@ def update_pollas():
             # Comparar y mostrar en consola
             if equipos_results:
                 coincidencias = []
+                puntos_a_sumar = 0
+
                 if primero and equipos_results[0]["name"] == primero:
                     coincidencias.append("primer lugar")
+                    puntos_a_sumar += 1
+
                 if segundo and equipos_results[1]["name"] == segundo:
                     coincidencias.append("segundo lugar")
+                    puntos_a_sumar += 1
+
                 if coincidencias:
                     print(
                         f"Perfil {perfil_nombre}, Grupo {grupo}: Coincide en {', '.join(coincidencias)}."
                     )
+
+                    # Actualizar los puntos en la base de datos
+                    update_query = "UPDATE pollas_grupos SET puntos = puntos + %s WHERE perfil = %s AND grupo = %s"
+                    cur.execute(update_query, (puntos_a_sumar, perfil_nombre, grupo))
+                    mysql.connection.commit()
 
             # Guardar los datos relevantes en pollas_data
             pollas_data.append(
@@ -120,15 +139,31 @@ def store_matches_route():
     return store_matches()
 
 
-# Ruta para login
+@app.route("/api/get_user", methods=["GET"])
+def get_user():
+    if "user_id" not in session:
+        return jsonify({"error": "Not logged in"}), 401
+
+    user_id = session["user_id"]
+    print(user_id)
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    user = cur.fetchone()
+    cur.close()
+
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify(user)
+
+
 @app.route("/api/login", methods=["POST"])
 def login():
-    data = request.json  # Asegúrate de usar request aquí
+    data = request.json
     username = data.get("username")
     password = data.get("password")
 
-    # Verificar en la base de datos si el usuario y contraseña son válidos
-    cur = mysql.connection.cursor()
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cur.execute(
         "SELECT * FROM users WHERE username = %s AND password = %s",
         (username, password),
@@ -137,6 +172,7 @@ def login():
     cur.close()
 
     if user:
+        session["user_id"] = user["id"]
         return jsonify({"message": "Inicio de sesión exitoso"})
     else:
         return jsonify({"message": "Credenciales inválidas"}), 401

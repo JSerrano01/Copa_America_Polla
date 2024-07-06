@@ -70,22 +70,22 @@ const Pollas = () => {
     setFilterText(event.target.value);
   };
 
-const handleUpdatePoints = async () => {
-  setShowLoading(true);
-  try {
-    // Aquí debes enviar los datos necesarios para actualizar los puntos al backend
-    // Puedes utilizar axios.post o axios.get según lo que necesites en tu API
-    const response = await axios.get("http://localhost:5000/api/update_pollas");
-    fetchMatches(); // Opcional: Actualiza los partidos después de actualizar los puntos
-    setTimeout(() => {
+  const handleUpdatePoints = async () => {
+    setShowLoading(true);
+    try {
+      // Aquí debes enviar los datos necesarios para actualizar los puntos al backend
+      // Puedes utilizar axios.post o axios.get según lo que necesites en tu API
+      const response = await axios.get("http://localhost:5000/api/update_pollas");
+      fetchMatches(); // Opcional: Actualiza los partidos después de actualizar los puntos
+      setTimeout(() => {
+        setShowLoading(false);
+        alert("Puntos actualizados exitosamente");
+      }, 1000);
+    } catch (error) {
+      console.error("Error updating points:", error);
       setShowLoading(false);
-      alert("Puntos actualizados exitosamente");
-    }, 1000);
-  } catch (error) {
-    console.error("Error updating points:", error);
-    setShowLoading(false);
-  }
-};
+    }
+  };
 
   const handleStoreMatches = async () => {
     setShowLoading(true);
@@ -146,11 +146,10 @@ const handleUpdatePoints = async () => {
             <button
               key={date}
               onClick={() => handleDateClick(date)}
-              className={`mx-2 px-4 py-2 rounded ${
-                selectedDate === date
-                  ? "bg-blue-500 text-white"
-                  : "bg-blue-500 text-white hover:bg-blue-500"
-              }`}
+              className={`mx-2 px-4 py-2 rounded ${selectedDate === date
+                ? "bg-blue-500 text-white"
+                : "bg-blue-500 text-white hover:bg-blue-500"
+                }`}
             >
               GRUPO {date}
             </button>
@@ -171,30 +170,24 @@ const handleUpdatePoints = async () => {
           progressPending={loading}
           pagination
         />
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={handleUpdatePoints}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Actualizar Puntos Grupos
-          </button>
-        </div>
-        <div className="flex justify-start mt-4">
-          <button
-            onClick={handleStoreMatches}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            style={{ fontSize: "0.875rem" }} // Tamaño de fuente relativo
-          >
-            Almacenar Partidos
-          </button>
-        </div>
+        <div className="flex justify-start mt-4"></div>
+      </div>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={handleUpdatePoints}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Actualizar Puntos Grupos
+        </button>
       </div>
       {showLoading && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-4 md:p-8 max-w-md w-full text-center">
-            <h2 className="text-lg md:text-xl font-bold mb-4">Cargando...</h2>
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            <p className="mt-4">Carga exitosa</p>
+          <div className="bg-white rounded-lg p-8 max-w-md w-full text-center">
+            <h2 className="text-xl font-bold mb-4">Cargando...</h2>
+            <div className="flex justify-center items-center">
+              <br />
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            </div>
           </div>
         </div>
       )}
