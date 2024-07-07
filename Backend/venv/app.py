@@ -55,10 +55,14 @@ def get_pollas():
 
 
 # Ruta para actualizar información de pollas
-@app.route("/api/update_pollas", methods=["GET"])
 def update_pollas():
     try:
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)  # Usar DictCursor
+
+        # Reiniciar los puntos de todos los perfiles a 0
+        reset_query = "UPDATE pollas_grupos SET puntos = 0"
+        cur.execute(reset_query)
+        mysql.connection.commit()
 
         # Consulta para obtener equipos ordenados por puntos para cada grupo
         groups = ["A", "B", "C", "D"]
@@ -86,14 +90,25 @@ def update_pollas():
             # Comparar y mostrar en consola
             if equipos_results:
                 coincidencias = []
+                puntos_a_sumar = 0
+
                 if primero and equipos_results[0]["name"] == primero:
                     coincidencias.append("primer lugar")
+                    puntos_a_sumar += 1
+
                 if segundo and equipos_results[1]["name"] == segundo:
                     coincidencias.append("segundo lugar")
+                    puntos_a_sumar += 1
+
                 if coincidencias:
                     print(
                         f"Perfil {perfil_nombre}, Grupo {grupo}: Coincide en {', '.join(coincidencias)}."
                     )
+
+                    # Actualizar los puntos en la base de datos
+                    update_query = "UPDATE pollas_grupos SET puntos = puntos + %s WHERE perfil = %s AND grupo = %s"
+                    cur.execute(update_query, (puntos_a_sumar, perfil_nombre, grupo))
+                    mysql.connection.commit()
 
             # Guardar los datos relevantes en pollas_data
             pollas_data.append(
@@ -112,7 +127,6 @@ def update_pollas():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"error": str(e)}), 500
-
 
 # Ruta para almacenar datos desde la API en base de datos de partidos
 @app.route("/api/store_matches", methods=["POST"])
