@@ -58,7 +58,6 @@ def get_pollas():
 
 
 # Ruta para actualizar información de pollas
-@app.route("/api/update_pollas", methods=["GET"])
 def update_pollas():
     try:
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)  # Usar DictCursor
@@ -131,7 +130,6 @@ def update_pollas():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"error": str(e)}), 500
-
 
 # Ruta para almacenar datos desde la API en base de datos de partidos
 @app.route("/api/store_matches", methods=["POST"])
